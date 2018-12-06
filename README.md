@@ -10,3 +10,5 @@ This project is a python interpretation of Conway's Game of Life, which follows 
 - Before each programming session, open the GitHub application and use the pull function to get the latest version of all files
 - If someone else is editing at the same time, merge the files at the end
 - After each programming session, open the GitHub applicaiton and use the push function to upload the latest version of your code
+- Review any changes made in the changes column on the left of the application
+- If all changes are correct, click the commit to master button, and your code will be added into the Git
