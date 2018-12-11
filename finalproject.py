@@ -3,6 +3,10 @@ Names: Ritchie Dimaria, Jeremy Weisberg, Jordan Belinsky, Alex Giannoulis
 Project: Conway's Game of Life
 """
 
+"""
+Testing that merging will work properly
+"""
+
 ########################
 # Import and Variables #
 ########################
