@@ -132,11 +132,11 @@ def place_oscillator():
 def place_stillLife():
     pass
 
-# Main loop #
+#Main loop
 run = False
 while True:
     
-    # Draw the board as rectangles #
+    #Draw the board as rectangles
     for row in range(len(board)):
         for col in range(len(board)):
             if board[row][col]:
@@ -171,6 +171,26 @@ while True:
                 '''TODO: Use the left key to navigate back 1 generation'''
 
 
+<<<<<<< HEAD
+=======
+
+                
+            if event.key == pygame.K_RIGHT:
+                '''TODO: Use the right key to navigate forwards 1 generation'''
+                run = True
+                if board == tempboard:
+                    run == False
+            if event.key == pygame.K_LEFT:
+                '''TODO: Use the left key to navigate back 1 generation'''
+
+
+
+
+
+
+
+                
+>>>>>>> parent of 9b4cf3c... Add next gen function
             if event.key == pygame.K_c:
                 if run == True:
                     run = not run
