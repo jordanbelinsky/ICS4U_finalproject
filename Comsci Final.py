@@ -185,6 +185,24 @@ while True:
                         generation += 1
                         run = False              
                 if event.key == pygame.K_LEFT:
+                    for y in range(1):
+                        tempboard = [[False for i in range(gridSize)] for j in range(gridSize)]
+                        for row in range(len(board)-1):
+                            for col in range(len(board)-1):
+                                neighborcount = findNeighbors(row, col)
+                                if board[row][col]: #any live cell
+                                    if neighborcount < 2:
+                                        tempboard[row][col] = False #dies
+                                    if neighborcount > 3: #With more than three live neighbors
+                                        tempboard[row][col] = False #dies
+                                    if neighborcount == 2 or neighborcount == 3:
+                                        tempboard[row][col] = True #lives on to the next generation 
+                                elif not board[row][col]: #any dead cell
+                                    if neighborcount == 3: #with exactly three live neighbors
+                                        tempboard[row][col] = True #becomes a live cell
+                        board = tempboard
+                        generation += 1
+                        run = False 
                     '''TODO: Use the left key to navigate back 1 generation'''
 
 
