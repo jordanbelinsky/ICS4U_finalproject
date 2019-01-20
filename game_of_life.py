@@ -1,7 +1,6 @@
 import pygame
 import random
 import pygame.midi
-
 rules = '''
         1. Any live cell with fewer than two live neighbours dies, as if caused by under-population.
         2. Any live cell with two or three live neighbours lives on to the next generation.
@@ -65,15 +64,35 @@ text_X = 10                             # initial coordinates
 text_Y = 10
 
 extendo = False # Pullout menu starts closed
-smallGlider = False # Drag/Dropping smallGlider
+currentShape = -1 # Current shape on mouse starts as nothing
 #Function for returning which row and column the mouse is in
+def drawTempRect(row,col):
+    pygame.draw.rect(screen,coolGrey, (row*10,col*10,10,10),0)
+class Shape(object):
+    def __init__(self, shapelist):
+        self.shapelist = shapelist
 
+    def rotate(self):
+        list_of_tuples = zip(*self.shapelist[::-1])
+        rotatedShape= [list(i) for i in list_of_tuples]
+        self.shapelist = rotatedShape
+    def drawtempShape(self,row,col):
+        for i in range(len(self.shapelist)):
+            for j in range(len(self.shapelist[0])):
+                if self.shapelist[i][j]:
+                    drawTempRect(row-j,col-i)
+                    
+    def addShape(self,row,col):
+        for i in range(len(self.shapelist)):
+            for j in range(len(self.shapelist[0])):
+                if self.shapelist[i][j]:
+                    giveLife(row-j,col-i)
 
-smallgliderlist= [[False,True,False],
+smallglider = Shape([[False,True,False],
                       [False,False,True],
-                      [True,True,True]]
+                      [True,True,True]])
 
-
+allShapes = [smallglider]
 def mousePos():
     x, y = pygame.mouse.get_pos()
     return (x//10, y//10)
@@ -118,44 +137,31 @@ def giveLife(row, col):
     board[row][col] = True
 
 def rotateShape(shapelist):
-    shapelistcopy = shapelist
-    for i in range(len(shapelist)):
-        for j in range(len(shapelist[0])): #rotate the matrix
-            shapelistcopy[j][3-1-i] = shapelist[i][j]
-    return shapelist
+    list_of_tuples = zip(*shapelist[::-1])
+    return [list(i) for i in list_of_tuples]
+
 #Turn a space of the grid off
 def killRuthlessly(row, col):
     board[row][col] = False
 
-def drawTempRect(row,col):
-    pygame.draw.rect(screen,coolGrey, (row*10,col*10,size,size),0)
-
-def drawSmallGlider(row,col):
-    global smallGlider,smallgliderlist
-    for i in range(len(smallgliderlist)):
-        for j in range(len(smallgliderlist[0])):
-            if smallgliderlist[i][j]:
-                drawTempRect(row-j,col-i)
+def drawcurrentshape(row,col,currentShape):
+    allShapes[currentShape].drawtempShape(row,col)
     if click[0]:
-        killRuthlessly(row, col)
-        for i in range(len(smallgliderlist)):
-            for j in range(len(smallgliderlist[0])):
-                if smallgliderlist[i][j]:
-                    giveLife(row-j,col-i)
+        killRuthlessly(row,col)
+        allShapes[currentShape].addShape(row,col)
     if click[2]:
-        smallGlider = False
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-                smallgliderlist = rotateShape(smallgliderlist)
-
+        currentShape = None
+    if click[1]:
+        allShapes[currentShape].rotate()
+        pygame.time.delay(40)
 # COPY #
 def checkGui(mouseX,mouseY):
-    global extendo,smallGlider,rules,main_game
+    global extendo,currentShape,rules,main_game
     if (mouseX > 97 and mouseY>40 and mouseY<49):
         extendo = True
     if extendo == True:
         if (mouseX > 82 and mouseX < 98 and mouseY > 2 and mouseY < 10):
-            smallGlider = True
+            currentShape=0
         if (mouseX > 82 and mouseX < 98 and mouseY > 69 and mouseY < 77):
             rules = True
             run = False
@@ -459,8 +465,8 @@ while main_game == True:
     # COPY #       
     draw_grid()
     drawGui()
-    if smallGlider:
-        drawSmallGlider(mouseX,mouseY)
+    if currentShape>-1:
+        drawcurrentshape(mouseX,mouseY,currentShape)
     message=('Generation: '+str(generation))
     drawText(message)
     if rules:
