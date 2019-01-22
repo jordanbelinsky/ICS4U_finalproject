@@ -43,9 +43,9 @@ player = pygame.midi.Output(0)
 player.set_instrument(120)
 
 # Pygame Display Variables #
-font = pygame.font.SysFont("Ariel Black",30)
-typeFont = pygame.font.SysFont("Ariel Black",20)
-header = pygame.font.SysFont("Ariel Black",38) 
+font = pygame.font.SysFont("Ariel Black", 30)
+typeFont = pygame.font.SysFont("Ariel Black", 20)
+header = pygame.font.SysFont("Ariel Black", 38) 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))                        # define the surface for the simulation to run on
 pygame.display.set_caption('Conway\'s Game of Life')
 smallglider_text = font.render('Small Glider', False, (0, 0, 0))
@@ -58,24 +58,24 @@ pygame.display.update()
 clock = pygame.time.Clock()
 
 # Custom Shape Variables #
-saveShapeText=''
-loadShapeText=''
-name=''
-saveShapeBool=False
-saveTypeBox=pygame.Rect(450,450,100,50)
-loadShapeBool=False
-loadTypeBox=pygame.Rect(450,450,100,50)
+saveShapeText = ''
+loadShapeText = ''
+name = ''
+saveShapeBool = False
+saveTypeBox = pygame.Rect(450, 450, 100, 50)
+loadShapeBool = False
+loadTypeBox = pygame.Rect(450, 450, 100, 50)
 typing = False
 initialCoord = None                             # coordinates for drag&drop
 timer=0
 
 # Side Menu Variables # 
-extendo = False                                 # pullout menu starts closed
+extendo = False                                 # side menu starts closed
 currentShape = -1                               # current shape on mouse starts as nothing
 
 # Preset Shape Preview #
 def drawTempRect(row,col):
-    pygame.draw.rect(screen,coolGrey, (row*10,col*10,10,10),0)
+    pygame.draw.rect(screen, coolGrey, (row*10, col*10, 10, 10), 0)
 
 # Preset Shape Class #
 class Shape(object):
@@ -84,7 +84,7 @@ class Shape(object):
 
     def rotate(self):
         list_of_tuples = zip(*self.shapelist[::-1])
-        rotatedShape= [list(i) for i in list_of_tuples]
+        rotatedShape = [list(i) for i in list_of_tuples]
         self.shapelist = rotatedShape
     def drawtempShape(self,row,col):
         for i in range(len(self.shapelist)):
@@ -185,8 +185,9 @@ def drawcurrentshape(row,col,currentShape):
 
 # Verify Click Interaction with GUI #
 def checkGui(mouseX,mouseY):
-    global extendo,currentShape,rules,main_game
-    if (mouseX > 97 and mouseY>40 and mouseY<49):
+    global extendo, currentShape, rules, main_game
+    # mouseX and mouseY numbers are 1/10 of actual pixel size #
+    if (mouseX > 97 and mouseY > 40 and mouseY < 49):
         extendo = True
     if extendo == True:
         if (mouseX > 82 and mouseX < 98 and mouseY > 5 and mouseY < 13):
@@ -208,36 +209,38 @@ def checkGui(mouseX,mouseY):
 # Display GUI Elements on Screen #
 def drawGui():
     global extendo
+
     # Side Menu GUI #
     if extendo == True:
-        pygame.draw.rect(screen,coolGrey,(800,0,200,HEIGHT),0)
-        pygame.draw.rect(screen,BLACK,(800,1,199,HEIGHT-2),3)
-        pygame.draw.rect(screen,WHITE,(820,50,160,80),0)                                # small glider
-        pygame.draw.rect(screen,WHITE,(820,165,160,80),0)                               # small exploder
-        pygame.draw.rect(screen,WHITE,(820,280,160,80),0)                               # spaceship
-        pygame.draw.rect(screen,WHITE,(820,395,160,80),0)                               # tumbler
-        pygame.draw.rect(screen,WHITE,(820,690,160,80),0)                               # rules
-        pygame.draw.rect(screen,BLACK,(777,402,24,86),0)
-        pygame.draw.rect(screen,coolGrey,(780,405,19,80),0)
-        pygame.draw.polygon(screen,WHITE,[(785,419),(785,429),(795,424)],0)
-        pygame.draw.polygon(screen,WHITE,[(785,439),(785,449),(795,444)],0)
-        pygame.draw.polygon(screen,WHITE,[(785,459),(785,469),(795,464)],0)
-        screen.blit(smallglider_text,(820,25))                                  # small glider
-        screen.blit(smallexploder_text,(820,140))                               # small exploder
-        screen.blit(spaceship_text,(820,255))                                   # spaceship
-        screen.blit(tumbler_text,(820,370))                                     # tumblerr
-        screen.blit(rules_text,(870,720))
+        pygame.draw.rect(screen, coolGrey, (800, 0, 200, HEIGHT), 0)
+        pygame.draw.rect(screen, BLACK, (800, 1, 199, HEIGHT-2), 3)
+        pygame.draw.rect(screen, WHITE, (820, 50, 160, 80), 0)                                # small glider
+        pygame.draw.rect(screen, WHITE, (820, 165, 160, 80), 0)                               # small exploder
+        pygame.draw.rect(screen, WHITE, (820, 280, 160, 80), 0)                               # spaceship
+        pygame.draw.rect(screen, WHITE, (820, 395, 160, 80), 0)                               # tumbler
+        pygame.draw.rect(screen, WHITE, (820, 690, 160, 80), 0)                               # rules
+        pygame.draw.rect(screen, BLACK, (777, 402, 24, 86), 0)
+        pygame.draw.rect(screen, coolGrey, (780, 405, 19, 80), 0)
+        pygame.draw.polygon(screen, WHITE, [(785, 419), (785, 429), (795, 424)], 0)
+        pygame.draw.polygon(screen, WHITE, [(785, 439), (785, 449), (795, 444)], 0)
+        pygame.draw.polygon(screen, WHITE, [(785, 459), (785, 469), (795, 464)], 0)
+        screen.blit(smallglider_text, (820, 25))                                  # small glider
+        screen.blit(smallexploder_text, (820, 140))                               # small exploder
+        screen.blit(spaceship_text, (820, 255))                                   # spaceship
+        screen.blit(tumbler_text, (820, 370))                                     # tumblerr
+        screen.blit(rules_text, (870, 720))
+        
     # General GUI #
     else:
-        pygame.draw.rect(screen,BLACK,(980,405,50,80),3)
-        pygame.draw.rect(screen,coolGrey,(980,405,50,80),0)
-        pygame.draw.polygon(screen,WHITE,[(995,419),(995,429),(985,424)],0)
-        pygame.draw.polygon(screen,WHITE,[(995,439),(995,449),(985,444)],0)
-        pygame.draw.polygon(screen,WHITE,[(995,459),(995,469),(985,464)],0)
+        pygame.draw.rect(screen, BLACK, (980, 405, 50, 80), 3)
+        pygame.draw.rect(screen, coolGrey, (980, 405, 50, 80), 0)
+        pygame.draw.polygon(screen, WHITE, [(995, 419), (995, 429), (985, 424)], 0)
+        pygame.draw.polygon(screen ,WHITE, [(995, 439), (995, 449), (985, 444)], 0)
+        pygame.draw.polygon(screen, WHITE, [(995, 459), (995, 469), (985, 464)], 0)
 
 # Display Text #
 def drawText(message,text_X,text_Y):
-    text = font.render(message, 1, BLACK) # put the font and the message together
+    text = font.render(message, 1, BLACK)                               # put the font and the message together
     screen.blit(text,(text_X,text_Y))
 
 # Display First Rules Page #
@@ -330,7 +333,7 @@ def load_grid():
 # Display Background for Drag & Drop #
 def dragdrop(inital,x,y):
     startx,starty = inital
-    pygame.draw.polygon(screen,RED,((startx*10, starty*10), (startx*10,y*10),(x*10,y*10),(x*10,starty*10)),3)
+    pygame.draw.polygon(screen,RED,((startx*10, starty*10),(startx*10,y*10),(x*10,y*10),(x*10,starty*10)),3)
 
 # Save Contents of Drag & Drop #
 def save_shape(name,startx,starty,x,y):
@@ -345,7 +348,7 @@ def save_shape(name,startx,starty,x,y):
 
 # Load a Previously Saved Shape #
 def load_shape(name):
-    newlst=[]
+    newlst = []
     file_in = open(name,'r')
     lines = file_in.readlines()
     for line in lines:
@@ -382,22 +385,22 @@ while main_game == True:
             # When User is Typing for Saving #
             if typing == True:
                 if loadShapeBool:
-                    name=loadShapeText
+                    name = loadShapeText
                 if saveShapeBool:
-                    name=saveShapeText
+                    name = saveShapeText
                 if event.unicode.isalpha() or event.unicode.isdigit():
-                    name+=event.unicode
+                    name += event.unicode
                 elif event.key == pygame.K_BACKSPACE:
-                    name=name[:-1]
+                    name = name[:-1]
                 elif event.key == pygame.K_RETURN:
-                    typing=False
+                    typing = False
                 if loadShapeBool:
-                    loadShapeText=name 
+                    loadShapeText = name 
                 if saveShapeBool:
-                    saveShapeText=name
+                    saveShapeText = name
                 
             # When User is Not Typing for Saving #
-            if typing ==False: 
+            if typing == False: 
                         
                 # Quit #
                 if event.key == pygame.K_ESCAPE:
@@ -423,8 +426,8 @@ while main_game == True:
                 
                 # Load Shape #
                 if event.key == pygame.K_k:
-                    loadShapeBool=True
-                    typing=True
+                    loadShapeBool = True
+                    typing = True
                         
                 # Rules Page 1 #
                 if rules:
@@ -451,16 +454,16 @@ while main_game == True:
                             for row in range(len(board)):
                                 for col in range(len(board)):
                                     neighborcount = findNeighbors(row, col)
-                                    if board[row][col]: #any live cell
+                                    if board[row][col]:                                 # any live cell
                                         if neighborcount < 2:
-                                            tempboard[row][col] = False #dies
-                                        if neighborcount > 3: #With more than three live neighbors
-                                            tempboard[row][col] = False #dies
+                                            tempboard[row][col] = False                 # dies
+                                        if neighborcount > 3:                           # with more than three live neighbors
+                                            tempboard[row][col] = False                 # dies
                                         if neighborcount == 2 or neighborcount == 3:
-                                            tempboard[row][col] = True #lives on to the next generation 
-                                    elif not board[row][col]: #any dead cell
-                                        if neighborcount == 3: #with exactly three live neighbors
-                                            tempboard[row][col] = True #becomes a live cell
+                                            tempboard[row][col] = True                  # lives on to the next generation 
+                                    elif not board[row][col]:                           # any dead cell
+                                        if neighborcount == 3:                          # with exactly three live neighbors
+                                            tempboard[row][col] = True                  # becomes a live cell
                                     if board[row][col] == False and tempboard[row][col]:
                                         player.note_on(row+5, 75)
                             board = tempboard
@@ -488,16 +491,16 @@ while main_game == True:
         for row in range(len(board)):
             for col in range(len(board)):
                 neighborcount = findNeighbors(row, col)
-                if board[row][col]: #any live cell
+                if board[row][col]:                                     # any live cell
                     if neighborcount < 2:
-                        tempboard[row][col] = False #dies
-                    if neighborcount > 3: #With more than three live neighbors
-                        tempboard[row][col] = False #dies
+                        tempboard[row][col] = False                     # dies
+                    if neighborcount > 3:                               # with more than three live neighbors
+                        tempboard[row][col] = False                     # dies
                     if neighborcount == 2 or neighborcount == 3:
-                        tempboard[row][col] = True #lives on to the next generation 
-                elif not board[row][col]: #any dead cell
-                    if neighborcount == 3: #with exactly three live neighbors
-                        tempboard[row][col] = True #becomes a live cell
+                        tempboard[row][col] = True                      # lives on to the next generation 
+                elif not board[row][col]:                               # any dead cell
+                    if neighborcount == 3:                              # with exactly three live neighbors
+                        tempboard[row][col] = True                      # becomes a live cell
                 if board[row][col] == False and tempboard[row][col] == True:
                     player.note_on(row+5, 75)
         board = tempboard
@@ -537,52 +540,54 @@ while main_game == True:
         # Middle or Right Click #
         else:
             if initialCoord != None:
-                saveShapeBool=True
-                typing=True
-                run=False
+                saveShapeBool = True
+                typing = True
+                run = False
                 print(saveShapeBool,typing)
                 initialCoord2 = initialCoord
                 initialCoord = None
     
     # Process Saving Shape #
     if saveShapeBool == True and typing == False:
-        run=False
+        run = False
         startx,starty = initialCoord2
         save_shape(saveShapeText,startx,starty,mouseX,mouseY)
-        saveShapeBool=False
-        run=False
+        saveShapeBool = False
+        run = False
     
     # Process Loading Shape #
-    if loadShapeBool==True and typing==False:
+    if loadShapeBool == True and typing == False:
+        
         # If Shape Name is Valid #
         try:
-            list2=load_shape(loadShapeText)
+            list2 = load_shape(loadShapeText)
             if mouseX<(100-(len(list2))) and mouseY<(100-(len(list2[0]))):
                 for x in range(mouseX, mouseX+len(list2)):
                     for y in range(mouseY,mouseY+len(list2[0])):
                         if list2[x-mouseX][y-mouseY] == True:
                             giveLife(x,y)
+                        
         # If Shape Name is Invalid #
         except:
-            errorMsg=('Name does not exist!')
-            drawText(errorMsg,400,450)
+            errorMsg = ('Name does not exist!')
+            drawText(errorMsg, 400, 450)
             pygame.display.update()
             pygame.time.delay(800)
-        loadShapeBool=False
-        run=False
+        loadShapeBool = False
+        run = False
     
     # Main Game Function Calls #
     draw_grid()
     drawGui()
     if currentShape >- 1:
         drawcurrentshape(mouseX,mouseY,currentShape)
-    message=('Generation: '+str(generation))
-    drawText(message,10,10)
+    message = ('Generation: '+str(generation))
+    drawText(message, 10, 10)
         
     # Drag & Drop Mode Active #
     if not mouse_mode:
-        mode=('Selection Mode')
-        drawText(mode,10,40)
+        mode = ('Selection Mode')
+        drawText(mode, 10, 40)
     
     # Save Shape Mode Active #
     if saveShapeBool:
