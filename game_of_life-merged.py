@@ -78,6 +78,20 @@ def drawTempRect(row,col):
     pygame.draw.rect(screen, coolGrey, (row*10, col*10, 10, 10), 0)
 
 # Preset Shape Class #
+class Gui(object):
+    def __init__(self,x,y,width,height,CLR):
+        self.x = x
+        self.y = y
+        self.height = height
+        self.width = width
+        self.CLR = CLR
+
+    def checkClicked(self,mousex,mousey):
+        if (mousex>self.x and mousex<self.x+self.width and mousey>self.y and mousey< self.y+self.height):
+            return True
+    def drawbox(self,screen,CLR= WHITE):
+        pygame.draw.rect(screen,CLR,(self.x,self.y,self.width,self.height),0)
+        
 class Shape(object):
     def __init__(self, shapelist):
         self.shapelist = shapelist
@@ -97,7 +111,12 @@ class Shape(object):
             for j in range(len(self.shapelist[0])):
                 if self.shapelist[i][j]:
                     giveLife(row-j,col-i)
-
+# GUI
+smallgliderbox = Gui(820, 50, 160, 80,WHITE)
+smallexploderbox = Gui(820, 165, 160, 80,WHITE)
+spaceshipbox = Gui(820, 280, 160, 80,WHITE)
+tumblerbox = Gui(820, 395, 160, 80,WHITE)
+rulesbox = Gui(820, 690, 160, 80,WHITE)
 # Preset Shape Tuples #
 smallglider = Shape([[False,True,False],
                      [False,False,True],
@@ -190,22 +209,21 @@ def checkGui(mouseX,mouseY):
     if (mouseX > 97 and mouseY > 40 and mouseY < 49):
         extendo = True
     if extendo == True:
-        if (mouseX > 82 and mouseX < 98 and mouseY > 5 and mouseY < 13):
+        if smallgliderbox.checkClicked(mouseX*10,mouseY*10):
             currentShape = 0
-        if (mouseX > 82 and mouseX < 98 and mouseY > 16.5 and mouseY < 24.5):
+        if smallexploderbox.checkClicked(mouseX*10,mouseY*10):
             currentShape = 1
-        if (mouseX > 82 and mouseX < 98 and mouseY > 28 and mouseY < 36):
+        if spaceshipbox.checkClicked(mouseX*10,mouseY*10):
             currentShape = 2
-        if (mouseX > 82 and mouseX < 98 and mouseY > 39.5 and mouseY < 47.5):
+        if tumblerbox.checkClicked(mouseX*10,mouseY*10):
             currentShape = 3
-        if (mouseX > 82 and mouseX < 98 and mouseY > 69 and mouseY < 77):
+        if rulesbox.checkClicked(mouseX*10,mouseY*10):
             rules = True
             run = False
         if mouseX > 77:
             killRuthlessly(mouseX,mouseY)
         if mouseX > 77 and mouseX < 80 and mouseY > 40 and mouseY < 49:
             extendo = False
-
 # Display GUI Elements on Screen #
 def drawGui():
     global extendo
@@ -214,12 +232,21 @@ def drawGui():
     if extendo == True:
         pygame.draw.rect(screen, coolGrey, (800, 0, 200, HEIGHT), 0)
         pygame.draw.rect(screen, BLACK, (800, 1, 199, HEIGHT-2), 3)
-        pygame.draw.rect(screen, WHITE, (820, 50, 160, 80), 0)                                # small glider
-        pygame.draw.rect(screen, WHITE, (820, 165, 160, 80), 0)                               # small exploder
-        pygame.draw.rect(screen, WHITE, (820, 280, 160, 80), 0)                               # spaceship
-        pygame.draw.rect(screen, WHITE, (820, 395, 160, 80), 0)                               # tumbler
-        pygame.draw.rect(screen, WHITE, (820, 690, 160, 80), 0)                               # rules
-        pygame.draw.rect(screen, BLACK, (777, 402, 24, 86), 0)
+        smallgliderbox.drawbox(screen)
+        if smallgliderbox.checkClicked(mouseX*10,mouseY*10):
+            smallgliderbox.drawbox(screen,GREY)
+        smallexploderbox.drawbox(screen)
+        if smallexploderbox.checkClicked(mouseX*10,mouseY*10):
+            smallexploderbox.drawbox(screen,GREY)
+        spaceshipbox.drawbox(screen)
+        if spaceshipbox.checkClicked(mouseX*10,mouseY*10):
+            spaceshipbox.drawbox(screen,GREY)
+        tumblerbox.drawbox(screen)
+        if tumblerbox.checkClicked(mouseX*10,mouseY*10):
+            tumblerbox.drawbox(screen,GREY)
+        rulesbox.drawbox(screen)
+        if rulesbox.checkClicked(mouseX*10,mouseY*10):
+            rulesbox.drawbox(screen,GREY)
         pygame.draw.rect(screen, coolGrey, (780, 405, 19, 80), 0)
         pygame.draw.polygon(screen, WHITE, [(785, 419), (785, 429), (795, 424)], 0)
         pygame.draw.polygon(screen, WHITE, [(785, 439), (785, 449), (795, 444)], 0)
